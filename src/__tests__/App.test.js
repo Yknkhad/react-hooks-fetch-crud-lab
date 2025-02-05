@@ -92,3 +92,16 @@ test("updates the answer when the dropdown is changed", async () => {
 
   expect(screen.queryAllByLabelText(/Correct Answer/)[0].value).toBe("3");
 });
+
+// src/__tests__/App.test.js
+test("displays question prompts after fetching", async () => {
+  render(<App />);
+
+  fireEvent.click(screen.queryByText(/View Questions/));
+
+  await waitFor(() => screen.getByText(/lorem testum 1/));
+  await waitFor(() => screen.getByText(/lorem testum 2/));
+
+  expect(screen.getByText(/lorem testum 1/)).toBeInTheDocument();
+  expect(screen.getByText(/lorem testum 2/)).toBeInTheDocument();
+});

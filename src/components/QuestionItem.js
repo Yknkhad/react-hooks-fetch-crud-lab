@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-function QuestionItem({ question }) {
+function QuestionItem({ question, onDelete }) {
   const { id, prompt, answers, correctIndex } = question;
+
+  const [selectedIndex, setSelectedIndex] = useState(correctIndex);
+
+  function handleSelectChange(event) {
+    setSelectedIndex(parseInt(event.target.value)); // Update selectedIndex when the dropdown changes
+  }
+
+  function handleDeleteClick() {
+    onDelete(id); // Trigger the onDelete function passed from the parent
+  }
 
   const options = answers.map((answer, index) => (
     <option key={index} value={index}>
@@ -15,9 +25,11 @@ function QuestionItem({ question }) {
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex}>{options}</select>
+        <select value={selectedIndex} onChange={handleSelectChange}>
+          {options}
+        </select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={handleDeleteClick}>Delete Question</button>
     </li>
   );
 }
